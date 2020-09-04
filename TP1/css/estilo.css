@@ -1,0 +1,74 @@
+.nav-link:hover{
+    background: #575757;   
+}
+.social{
+    position: fixed;
+    top: 30%;
+    right: 0;
+}
+.social a{
+   display: block;
+   margin-bottom: 4px;
+   opacity: 0.8;
+}
+.social a:hover{
+    opacity: 1;
+ }
+ .social img{
+     border-radius: 50%;
+     display:block;
+ }
+ .carousel {
+     width: 170px;
+  }
+  h5{
+      color:black;
+  }
+  .marco .Serie ul a{
+    color: #000;
+    padding-left: 5px; 
+    text-decoration: none;   
+}
+.marco .Serie ul{
+    list-style-type: none;
+    
+}
+.marco .Serie a:hover{
+    text-decoration: underline; 
+    background-color: #cac5c5;
+    
+}
+.marco .Serie ul li{
+
+      border-left: solid 4px #82aed3;
+      display: block;
+      margin-bottom: 5px;
+   
+}
+.marco .Serie ul li:hover{
+
+    border-left: solid 4px #021b30;
+ 
+}
+.marco{
+    overflow: auto;
+    position: relative;
+    border: solid 6px #571704 dashed;
+    height: 350px;
+    top: 10px;
+    text-align: left;
+    padding-left: 10px;
+}
+.presentacion{
+    
+    background: radial-gradient(180px at 30% 10%, #A3D4FF, #007bff);
+    
+}
+
+.resaltado{
+    background-color: rgb(211, 238, 93);
+}
+
+.oculto{
+    display: none;
+}
