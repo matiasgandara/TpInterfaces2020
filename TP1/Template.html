@@ -2,19 +2,90 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Clase 1 - Template</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/estilo.css">
+		<link rel="shortcut icon" href="image/paleta.png"/> 
+		<title>PintArt - Integrador 1</title>
 	</head>
-	<body>
-		<div>
-			<button id="btnInvertir" type="button">INVERTIR</button>
-			<button id="btnGrises" type="button">GRISES</button>
-			<button id="btnNegativo" type="button">NEGATIVO</button>
-			<button id="btnBinario" type="button">BINARIO</button>
-			<button id="btnOriginal" type="button">ORIGINAL</button>
-			<input type="file" name="cargar" id="btnCargar">
-		</div>
-		<canvas id="myCanvas" width="1024" height="768"></canvas>
+	<body class="text-center">
+		<!-- <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column"> -->
+		<!-- <div class="jumbotron cloudflare text-center d-flex w-100 h-100 p-3 mx-auto flex-column"> -->
+			<header class="container masthead mb-auto">
+				<div class="inner row">
+					<h1 class="masthead-brand">PintArte</h1>
+					
+					<h1 id="imgPortada"><img src="image/paleta.png"></h1>
+
+					<!-- <h1>PintArte</h1> -->
+				<!-- 	<p>Dibuja y modifica tus imagenes</p> -->
+				</div>
+			</header>
+		<!-- </div> -->
+		<main role="main" class="inner cover">
+			<div class="container-fluid" >
+				<div class="row">
+					<div class="col-sm-1 cover-container">
+						<h3>Filtros</h3>
+						<div class="btn-group-vertical btn-lg">
+							<button id="btnInvertir" type="button" class="btn btn-outline-primary">INVERTIR</button>
+							<button id="btnGrises" type="button" class="btn btn-outline-primary">GRISES</button>
+							<button id="btnNegativo" type="button" class="btn btn-outline-primary">NEGATIVO</button>
+							<button id="btnBinario" type="button" class="btn btn-outline-primary">BINARIO</button>
+							<button id="btnOriginal" type="button" class="btn btn-outline-primary">ORIGINAL</button>
+							<button id="btnEnBlanco" type="button" class="btn btn-outline-primary">REINICIO</button>
+							<button id="btnLineas" type="button" class="btn btn-outline-primary">LINEAS</button>
+
+						</div>
+						<div class="form-group">
+							<input type="file" id="myImage" >
+							
+							<a id="download" download="myImage.jpg" onclick="descargar_img(this);">DESCARGAR</a>
+						</div>
+					</div>
+					<div id="lienzo" class="col-sm-9 text-center">
+						<canvas id="myCanvas" width="800" height="450"></canvas><!-- Canvas principal -->
+					</div>
+					<div class="col-sm-1 cover-container">
+						<div class="btn-group-vertical btn-lg">
+							<button id="close-image" class="herramientas btn btn-outline-primary" value="Borrador" onclick="herramienta='borrador'"><img src="image/goma2.png"></button>
+						
+							<button id="close-image"  class="herramientas btn btn-outline-primary" value="Lapiz" onclick="herramienta='lapiz'"><img src="image/lapiz4.png"></button>
+							<h3>Trazo</h3>
+							<select id="trazo" class="custom-select custom-select-sm">
+								<option value="3" disabled selected>1</option>
+								<option value="5">2</option>
+								<option value="10">3</option>
+								<option value="15">4</option>
+								<option value="15">5</option>
+							</select>
+							<label for="customRange2">Rojo</label>
+							<input type="range" class="custom-range" min="0" max="255" id="rangoRojo">
+							<label for="customRange2">Verde</label>
+							<input type="range" class="custom-range" min="0" max="255" id="rangoVerde">
+							<label for="customRange2">Azul</label>
+							<input type="range" class="custom-range" min="0" max="255" id="rangoAzul">
+							<div class="col-sm-10 text-center">
+								<canvas id="myColor" width="50" height="50"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>		 	
+			</div>
+		</main>
 	</body>
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+       crossorigin="anonymous"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+       integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	   crossorigin="anonymous"></script>
+	   
+	   <!-- Scrips utilizacion de Canvas  -->
+<!-- 	<script  type="text/javascript" src="js/rectangulo.js"></script> -->
 	<script  type="text/javascript" src="js/filtros.js"></script>
+	<script  type="text/javascript" src="js/lapiz.js"></script>
+	<!-- <script  type="text/javascript" src="js/sobel.js"></script> -->
 </html>
 
