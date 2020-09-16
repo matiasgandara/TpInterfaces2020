@@ -34,10 +34,10 @@ function imagenCargada(e){
         let btnOriginal = document.querySelector("#btnOriginal");
         btnOriginal.addEventListener("click",original);
 
-       /*  let btnLineas = document.querySelector("#btnLineas");
+        let btnLineas = document.querySelector("#btnLineas");
         btnLineas.addEventListener("click",detectarBordes);
         let btnSuavizado = document.querySelector("#btnSuavizar");
-        btnSuavizado.addEventListener("click",suavizar); */
+        btnSuavizado.addEventListener("click",suavizar);
 
         function original(){
           ajustar(imgOriginal);
