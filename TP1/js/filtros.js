@@ -36,8 +36,8 @@ function imagenCargada(e){
 
         let btnLineas = document.querySelector("#btnLineas");
         btnLineas.addEventListener("click",detectarBordes);
-        let btnLineas = document.querySelector("#btnIluminar");
-        btnLineas.addEventListener("click",iluminacion);
+        let btnSuavizado = document.querySelector("#btnSuavizar");
+        btnSuavizado.addEventListener("click",suavizar);
 
         function original(){
           ajustar(imgOriginal);
@@ -211,20 +211,19 @@ function imagenCargada(e){
         }
 
 
-        function iluminacion(){
-          let kernelx = [[1/9,1/9,1/9],[0,0,0],[1/9,1/9,1/9]];
-          let kernely = [[1/9,0,1/9],[1/9,0,1/9],[1/9,0,1/9]];
+        function suavizar(){
+          let kernel = [[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]];
           let result = imgData;
           for (let y=0;y<c.height;y++){
             for (let x=0;x<c.width;x++){
               let index=(x+y*imgData.width)*4;
-              vecinos=getVecinos(imgData,x,y);
+              let vecinos=getVecinos(imgData,x,y);
               let R=0; let G=0; let B=0;
               for (let i = 0; i <=2; i++) {
                   for (let j = 0; j <=2; j++) {
-                      R+=vecinos[i][j][0]*kernelx[i][j];
-                      G+=vecinos[i][j][1]*kernelx[i][j];
-                      B+=vecinos[i][j][2]*kernelx[i][j];
+                      R+=vecinos[i][j][0]*kernel[i][j];
+                      G+=vecinos[i][j][1]*kernel[i][j];
+                      B+=vecinos[i][j][2]*kernel[i][j];
                   }
               }
               result.data[index]=R;
