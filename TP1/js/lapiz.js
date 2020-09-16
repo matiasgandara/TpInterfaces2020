@@ -1,5 +1,4 @@
 	herramienta = "lapiz";
-	
 	pintar = Boolean(false);
 	let canvasColor = document.getElementById("myColor");
 	let ctxColor = canvasColor.getContext("2d");
@@ -20,7 +19,7 @@
 		'use strict'
 		//paleta de color
 		
-		
+		//movientos dentro del canvas 
 		let c = document.getElementById("myCanvas");
 		let ctx = c.getContext("2d");
 		c.onmousedown = function (e){
@@ -33,6 +32,7 @@
 			pintar = false;
 			ctx.beginPath();
 		}
+		// funcion lapiz y borrador
 		c.onmousemove = function(e){
 			if (pintar) {
 				if (herramienta == "lapiz") {
@@ -57,7 +57,7 @@
 
 		
 	}
-
+// canvas de seleccion de color segun rgb
 	function actualizaColor(){
 		color_prim = selecColor();
 		ctxColor.beginPath();

@@ -10,15 +10,12 @@ function imagenCargada(e){
   let fileImg = e.target.files[0];
   let reader = new FileReader();
   reader.readAsDataURL(fileImg);
-  console.log(fileImg);
   reader.onload= function(e){
     imagen.src = e.target.result;
-    
-    
     imagen.onload = function() {
         let c = document.querySelector("#myCanvas");
         let ctx = c.getContext("2d");
-        imgOriginal= this;
+        let imgOriginal= this;
         //obtenida la imagen se ajusta al canvas
         ajustar(this);
         let alto = c.width;
@@ -39,6 +36,8 @@ function imagenCargada(e){
 
         let btnLineas = document.querySelector("#btnLineas");
         btnLineas.addEventListener("click",detectarBordes);
+        let btnLineas = document.querySelector("#btnIluminar");
+        btnLineas.addEventListener("click",iluminacion);
 
         function original(){
           ajustar(imgOriginal);
@@ -46,7 +45,7 @@ function imagenCargada(e){
         }
 
         function ajustar(img){
-          // get the scale
+          // levanto la escala
           let scale = Math.min(c.width / img.width, c.height / img.height);
           // get the top left position of the image
           let x = (c.width / 2) - (img.width / 2) * scale;
@@ -86,14 +85,15 @@ function imagenCargada(e){
 
         
         function escGrises(){//Genera imagen en escala de grices
+           let grises = imgData;
             for (let i = 0; i < imgData.data.length; i += 4) {
               let promedio = promGradiente(imgData,i);
-              imgData.data[i] = promedio;
-              imgData.data[i+1] = promedio;
-              imgData.data[i+2] = promedio;
+              grises.data[i] = promedio;
+              grises.data[i+1] = promedio;
+              grises.data[i+2] = promedio;
              // imgData.data[i+3] = 255;
             }
-            return imgData;
+            return grises;
           }
         
 
@@ -150,23 +150,31 @@ function imagenCargada(e){
           el.href = imageURI;
         }
 
-        function getVecinos(imgData,x,y){
+        function getVecinos(imgOrigen,x,y){
+          let dataCopy = [0,0,0,0];
           let vecino = [];
-       
-          let fila = x-4-imgData.height;
-          let col = y-1;
+          let pixx = x-1;
+          let pixy = y-1;
           for (let i = 0; i <= 2; i++){
             vecino[i]=[];
             for(let j = 0; j <= 2; j++){
-              if((fila >= 0) && (col>=0) && (fila < imgData.height) && (col < imgData.width)){
-                  vecino[i][j]= imgData[fila-imgData.height];
-                  fila+4;
+              if((pixx >= 0) && (pixy>=0) && (pixy < imgOrigen.height) && (pixx < imgOrigen.width)){
+                  let pos = (pixx + pixy*imgOrigen.width)*4;
+                  dataCopy[0]= imgOrigen.data[pos];
+                  dataCopy[1]= imgOrigen.data[pos+1];
+                  dataCopy[2]= imgOrigen.data[pos+2];
+                  dataCopy[3]= imgOrigen.data[pos+3];
                 }
-                else{ vecino[i][j]=255;
+                else{
+                  dataCopy[0]= 0;
+                  dataCopy[1]= 0;
+                  dataCopy[2]= 0;
+                  dataCopy[3]= 0;
                  }
-                 fila+=4;
+                 vecino[i][j]= dataCopy;
+                 pixx++;
             }
-            col++;
+            pixy++;
           }
           return vecino;
         }
@@ -174,22 +182,20 @@ function imagenCargada(e){
         function detectarBordes(){
           let imgparcial = escGrises();
           //let param=document.querySelector("#parametro").value*1000;
-          let param = 100;
+          let param = 1000;
           let kernelX=[[-1,-2,-1],[0,0,0],[1,2,1]];
           let kernelY=[[-1,0,1],[-2,0,2],[-1,0,1]];
           let result=imgparcial;
-          for (y=0;y<imgparcial.height;y++){
-              for (x=0;x<imgparcial.width;x++){
+          for (let y=0;y<imgparcial.height;y++){
+              for (let x=0;x<imgparcial.width;x++){
                   let index=(x+y*c.width)*4;
                   let gx=0; let gy=0;
-                  let vecinos=getVecinos(imgparcial,x,y);
+                  let vecinos = getVecinos(imgparcial,x,y);
+                  
                   for (let i = 0; i <=2; i++) {
                       for (let j = 0; j <=2; j++) {
-                        gx+=vecinos[i][j] * kernelX[i][j];
-                        gy+=vecinos[i][j] * kernelY[i][j];
-
-                     /*      gx+=vecinos[i][j].data[0]*kernelX[i][j];
-                          gy+=vecinos[i][j].data[0]*kernelY[i][j]; */
+                          gx+=vecinos[i][j][0]*kernelX[i][j];
+                          gy+=vecinos[i][j][0]*kernelY[i][j];
                       }
                   }
                   let color=Math.sqrt(gx*gx+gy*gy);
@@ -204,35 +210,30 @@ function imagenCargada(e){
           ctx.putImageData(result,0,0);
         }
 
-        function* convolveRgb2(context, Kx, Ky, input = context.getImageData(0, 0, width, height)) {
-          const output = context.createImageData(width, height);
-          yield context.canvas;
-          for (let y = 1, i = (width + 1) * 4; y < height - 1; ++y, i += 8) {
-            for (let x = 1; x < width - 1; ++x, i += 4) {
-              let rx = 0, ry = 0;
-              let gx = 0, gy = 0;
-              let bx = 0, by = 0;
-              for (let yk = y - 1, j = 0; yk <= y + 1; ++yk) {
-                for (let xk = x - 1; xk <= x + 1; ++xk, ++j) {
-                  let i = (yk * width + xk) << 2;
-                  rx += input.data[i + 0] * Kx[j];
-                  ry += input.data[i + 0] * Ky[j];
-                  gx += input.data[i + 1] * Kx[j];
-                  gy += input.data[i + 1] * Ky[j];
-                  bx += input.data[i + 2] * Kx[j];
-                  by += input.data[i + 2] * Ky[j];
-                }
-              }
-              output.data[i + 0] = Math.hypot(rx, ry);
-              output.data[i + 1] = Math.hypot(gx, gy);
-              output.data[i + 2] = Math.hypot(bx, by);
-              output.data[i + 3] = 255;
-            }
-            context.putImageData(output, 0, 0, 0, y, width, 1);
-            yield context.canvas;
-          }
-        }
 
+        function iluminacion(){
+          let kernelx = [[1/9,1/9,1/9],[0,0,0],[1/9,1/9,1/9]];
+          let kernely = [[1/9,0,1/9],[1/9,0,1/9],[1/9,0,1/9]];
+          let result = imgData;
+          for (let y=0;y<c.height;y++){
+            for (let x=0;x<c.width;x++){
+              let index=(x+y*imgData.width)*4;
+              vecinos=getVecinos(imgData,x,y);
+              let R=0; let G=0; let B=0;
+              for (let i = 0; i <=2; i++) {
+                  for (let j = 0; j <=2; j++) {
+                      R+=vecinos[i][j][0]*kernelx[i][j];
+                      G+=vecinos[i][j][1]*kernelx[i][j];
+                      B+=vecinos[i][j][2]*kernelx[i][j];
+                  }
+              }
+              result.data[index]=R;
+              result.data[index+1]=G;
+              result.data[index+2]=B;
+            }
+           }
+           ctx.putImageData(result,0,0);
+        }
       };
     
     }
