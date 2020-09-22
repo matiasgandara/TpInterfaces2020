@@ -5,10 +5,16 @@ class Figure{
         this.posY = posY;
         this.fill = fill;
         this.context = context;
+        this.seleccionado = false;
+        this.seleccionadoStyle = "rgb(0,0,0)";
     }
 
     setFill(fill){
-        this.fill;
+        this.fill = fill;
+    }
+
+    setSeleccionado(selec){
+        this.seleccionado = selec;
     }
 
     getPosition(){
@@ -33,4 +39,6 @@ class Figure{
     draw(){
         this.context.fillStyle = this.fill;
     }
+
+    isPointInside(x,y){}
 }

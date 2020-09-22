@@ -9,6 +9,11 @@ class Circle extends Figure {
         this.context.beginPath();
         this.context.arc(this.posX, this.posY, this.radius, 0 , 2*Math.PI);
         this.context.fill();
+        if(this.seleccionado === true){
+            this.context.strokeStyle = this.seleccionadoStyle;
+            this.context.lineWidth = 5;
+            this.context.stroke();
+        }
         this.context.closePath();
     }
 
@@ -19,4 +24,11 @@ class Circle extends Figure {
     setRadius(newRadius){
         this.radius = newRadius;
     }
+
+    isPiontInside(x,y){
+        let disX = this.posX - x;
+        let disY = this.posY - y; 
+        return Math.sqrt(disX * disX + disY * disY) < this.radius;
+    }
+
 }

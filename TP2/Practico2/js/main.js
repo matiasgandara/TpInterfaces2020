@@ -1,27 +1,67 @@
 'use strict'
-let canvas = document.getElementById('myCanvas');
+let canvas = document.querySelector('#myCanvas');
 let ctx = canvas.getContext("2d"); 
+
+let MAXFIGURES = 10;
+let SIZEFIGURES = 25;
+
+let lastClickedFigure = null;
+let isMouseDown = false;
+
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
-clearCanvas();
+let colorClean = "rgb(255,255,255)";
+clearCanvas(ctx,colorClean);
 let figures = [];
 addFigures();
+canvas.addEventListener('mousedown',onMouseDown,false);
+
+
 //--------------------------------------------
 
-function addFigure(){
-    let figura = parseInt(Math.random()*10);
-    if (figura > 5){ 
-        addCircle();
+
+
+function findClickedFigure(layerX, layerY){
+    for (let f = 0; f < MAXFIGURES; f++){
+        
+        if (figures[f].isPointInside(layerX,layerY) === true){
+            return figures[f];
+        }
     }
-    else{
-        addRect();
-        addTriangulo();
+    return null;
+}
+
+function onMouseDown(event){
+    isMouseDown = true;
+    if (lastClickedFigure != null){
+        lastClickedFigure.setSeleccionado(false);
+        lastClickedFigure = null;
+    }
+    let clickedFigure = findClickedFigure(event.layerX, event.layerY);
+    if (clickedFigure != null){
+        clickedFigure.setSeleccionado(true);
+        lastClickedFigure - clickedFigure;
     }
     drawFigures();
 }
 
+function addFigure(){
+    for (let i = 0; i < MAXFIGURES; i++){
+        if (Math.random() > 0.5){
+            addCircle();
+        }else{
+            addRect()
+        }
+    }
+    drawFigures();
+
+   /*  canvas.addEventListener('mousedown',onMouseDown,false); */
+    /* canvas.addEventListener('mouseup',onMouseUp, false);
+    canvas.addEventListener('mousemove', onMouseMoved, false); */
+}
+
 function drawFigures(){
-    clearCanvas();
+    clearCanvas(ctx,colorClean);
     for (let i=0; i < figures.length; i++){
         figures[i].draw();
     }
@@ -30,7 +70,7 @@ function drawFigures(){
 function addCircle(){
   let posX = Math.round(Math.random() * canvasWidth);
   let posY = Math.round(Math.random() * canvasHeight);
-  let radio = parseInt(Math.random() * 50);
+  let radio = SIZEFIGURES;
   let color = randomRGBA();
   let circle = new Circle(posX,posY,color,radio,ctx);
   figures.push(circle);
@@ -39,8 +79,8 @@ function addCircle(){
 function addRect(){
     let posX = Math.round(Math.random() * canvasWidth);
     let posY = Math.round(Math.random() * canvasHeight);
-    let ancho = parseInt(Math.random() * 50);
-    let alto = parseInt(Math.random() * 50);
+    let ancho = SIZEFIGURES;
+    let alto = SIZEFIGURES;
     let color = randomRGBA();
     let rect = new Rect(posX,posY,color,ctx,ancho,alto);
     figures.push(rect);
@@ -50,9 +90,9 @@ function addRect(){
     let posX = Math.round(Math.random() * canvasWidth);
     let posY = Math.round(Math.random() * canvasHeight);
     let ancho = parseInt(Math.random() * 10);
-    /* let alto = parseInt(Math.random() * 10); */
+    let alto = parseInt(Math.random() * 10);
     let color = randomRGBA();
-    let triangulo = new Triangulo(posX,posY,color,ctx,ancho,ancho);
+    let triangulo = new Triangulo(posX,posY,color,ctx,ancho,alto);
     figures.push(triangulo);
   }
   
@@ -60,23 +100,8 @@ function addRect(){
 
 function addFigures(){
     addFigure();
-    if (figures.length < 40){
-        setTimeout(addFigures,1000);
+    if (figures.length < MAXFIGURES){
+        addFigures();
     }
 }
 
-function clearCanvas(){
-    ctx.beginPath();
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(20, 20, canvasWidth, canvasHeight);
-    ctx.fill();
-    ctx.closePath();
-}
-
-function randomRGBA(){
-    let R = parseInt(Math.random() * 255);
-    let G = parseInt(Math.random() * 255);
-    let B = parseInt(Math.random() * 255);
-    let A = parseInt(Math.random() * 255);
-    return "rgb("+R+","+G+","+B+")";
-}
