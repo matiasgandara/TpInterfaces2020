@@ -1,12 +1,13 @@
 'use strict'
+
 let canvas = document.querySelector('#myCanvas');
 let ctx = canvas.getContext("2d"); 
 
 let MAXFIGURES = 10;
 let SIZEFIGURES = 25;
 
-let lastClickedFigure = null;
-let isMouseDown = false;
+
+
 
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
@@ -14,22 +15,29 @@ let colorClean = "rgb(255,255,255)";
 clearCanvas(ctx,colorClean);
 let figures = [];
 addFigures();
-canvas.addEventListener('mousedown',onMouseDown,false);
 
 
+/* canvas.addEventListener('mousedown',onMouseDown,false);
+canvas.addEventListener('mouseup',onMouseUp, false);
+canvas.addEventListener('mousemove', onMouseMoved, false);
+ */
 //--------------------------------------------
 
 
 
 function findClickedFigure(layerX, layerY){
     for (let f = 0; f < MAXFIGURES; f++){
-        
-        if (figures[f].isPointInside(layerX,layerY) === true){
+        let figSelect = figures[f];
+        if (figSelect.isPointInside(layerX,layerY) == true){
             return figures[f];
         }
     }
     return null;
 }
+
+
+let lastClickedFigure = null;
+let isMouseDown = false;
 
 function onMouseDown(event){
     isMouseDown = true;
@@ -40,24 +48,29 @@ function onMouseDown(event){
     let clickedFigure = findClickedFigure(event.layerX, event.layerY);
     if (clickedFigure != null){
         clickedFigure.setSeleccionado(true);
-        lastClickedFigure - clickedFigure;
+        lastClickedFigure = clickedFigure;
     }
     drawFigures();
 }
 
-function addFigure(){
-    for (let i = 0; i < MAXFIGURES; i++){
-        if (Math.random() > 0.5){
-            addCircle();
-        }else{
-            addRect()
-        }
+function onMouseMoved(event){
+    if (isMouseDown && lastClickedFigure != null){
+        lastClickedFigure.setPosition(event.layerX,event.layerY);
+        drawFigures();
     }
-    drawFigures();
+}
 
-   /*  canvas.addEventListener('mousedown',onMouseDown,false); */
-    /* canvas.addEventListener('mouseup',onMouseUp, false);
-    canvas.addEventListener('mousemove', onMouseMoved, false); */
+function onMouseUp(event){
+    isMouseDown = false;
+}
+
+
+function addFigure(){
+    if (Math.random() > 0.5){
+        addCircle();
+    }else{
+        addRect();
+    }
 }
 
 function drawFigures(){
@@ -86,7 +99,7 @@ function addRect(){
     figures.push(rect);
   }
 
-  function addTriangulo(){
+/*   function addTriangulo(){
     let posX = Math.round(Math.random() * canvasWidth);
     let posY = Math.round(Math.random() * canvasHeight);
     let ancho = parseInt(Math.random() * 10);
@@ -94,14 +107,18 @@ function addRect(){
     let color = randomRGBA();
     let triangulo = new Triangulo(posX,posY,color,ctx,ancho,alto);
     figures.push(triangulo);
-  }
+} */
   
-  
-
 function addFigures(){
-    addFigure();
-    if (figures.length < MAXFIGURES){
-        addFigures();
+    for (let i=0; i < MAXFIGURES; i ++){
+        addFigure();
     }
+    drawFigures();
+    canvas.addEventListener('mousedown',onMouseDown,false);
+    canvas.addEventListener('mouseup',onMouseUp, false);
+    canvas.addEventListener('mousemove', onMouseMoved, false);
+
 }
+
+
 

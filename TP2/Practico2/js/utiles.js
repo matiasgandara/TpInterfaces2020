@@ -1,6 +1,6 @@
 function clearCanvas(ctx,color){
     ctx.fillStyle = color;
-    ctx.fillRect(20, 20, canvasWidth, canvasHeight);
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 }
 
 function randomRGBA(){

@@ -7,15 +7,12 @@ class Rect extends Figure {
 
     draw(){
         super.draw();
-        this.context.beginPath();
-        this.context.fillRect(this.posX, this.posY, this.height, this.width);
-        this.context.fill();
+        this.context.fillRect(this.posX, this.posY, this.width, this.height);
         if(this.seleccionado === true){
             this.context.strokeStyle = this.seleccionadoStyle;
             this.context.lineWidth = 5;
-            this.context.stroke();
+            this.context.strokeRect(this.posX,this.posY,this.width,this.height);
         }
-        this.context.closePath();
     }
 
     getHeight(){
@@ -34,7 +31,7 @@ class Rect extends Figure {
         this.height = newHeight;
     }
 
-    isPiontInside(x,y){
+    isPointInside(x,y){
         return  ((x < this.posX) || (x > this.posX + this.width) || (y < this.posY) || (y > this.posY +this.height));
     }
 }

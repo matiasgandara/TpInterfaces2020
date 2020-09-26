@@ -6,6 +6,7 @@ class Figure{
         this.fill = fill;
         this.context = context;
         this.seleccionado = false;
+        this.proximidad = null;
         this.seleccionadoStyle = "rgb(0,0,0)";
     }
 
@@ -15,6 +16,19 @@ class Figure{
 
     setSeleccionado(selec){
         this.seleccionado = selec;
+    }
+
+    getSeleccionado(){
+        return this.seleccionado;
+    }
+
+    seleccionadoStyle(style){
+        this.seleccionadoStyle = style;
+    }
+
+    setPosition(x,y){
+        this.posX = x;
+        this.posY = y;
     }
 
     getPosition(){

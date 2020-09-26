@@ -25,10 +25,11 @@ class Circle extends Figure {
         this.radius = newRadius;
     }
 
-    isPiontInside(x,y){
+    isPointInside(x,y){
         let disX = this.posX - x;
         let disY = this.posY - y; 
-        return Math.sqrt(disX * disX + disY * disY) < this.radius;
+        this.proximidad = Math.sqrt(disX * disX + disY * disY);
+        return this.proximidad < this.radius;
     }
 
 }
