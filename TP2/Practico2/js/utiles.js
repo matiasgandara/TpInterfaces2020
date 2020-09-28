@@ -3,6 +3,15 @@ function clearCanvas(ctx,color){
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 }
 
+function clearCanvasImg(ctx,img){
+
+    
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+}
+
+
+
 function randomRGBA(){
     let R = parseInt(Math.random() * 255);
     let G = parseInt(Math.random() * 255);

@@ -22,7 +22,7 @@ window.onload = function(){
     dibujarFichas();
     let isMouseDown = false;
     let lastClickedFigure = null;
-    let ultimoColor = "yellow";
+    
 
 
     c.onmousedown = function (e){
@@ -31,6 +31,7 @@ window.onload = function(){
             lastClickedFigure.setSeleccionado(false);
             lastClickedFigure = null;
         }
+
         let clickedFigure = findClickedFigure(e.layerX, e.layerY);
         if (clickedFigure != null){
             clickedFigure.setSeleccionado(true);
@@ -74,14 +75,12 @@ window.onload = function(){
 // ver la clickeada
         function findClickedFigure(layerX, layerY){
             for (let index = 0; index < fichas.length; index++){
-                let element = fichas[index];
-                if (element.isPointInside(layerX,layerY)){
+                let element = fichas[index];                
+                if (element.isPointInside(layerX,layerY) && element.getFill() != ultimoColor){
                     return element;
                 }
             }
-        }
-    };
+        }  
+};
 
-    
-   
     

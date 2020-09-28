@@ -36,6 +36,7 @@ let fichaWin = new Image; */
 let colorUno = "red";
 let colorDos = "yellow";
 let colorWin = "green";
+let ultimoColor = colorDos;
 let fichas = [];//Fichas de ambos equipos
 let vecinos = [];//busca iguales al rededor
 let bajadas = [];//sectores de bajada de ficha
@@ -187,6 +188,7 @@ function actualizarTablero(columna,ultimaFicha){
     if ((matrizJuego[i][columna].getFig2().getFill() == fillCirc) && !pinto ){
       matrizJuego[i][columna].getFig2().setFill(color);
       pinto = true;
+      ultimoColor = ultimaFicha.getFill();
       ultimaFicha.setNull();
       juegoGanado = buscaGanador(columna,i,color);
     } 
