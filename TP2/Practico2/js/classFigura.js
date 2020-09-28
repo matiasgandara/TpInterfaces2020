@@ -54,5 +54,11 @@ class Figure{
         this.context.fillStyle = this.fill;
     }
 
+    setNull(){
+        this.posX = 0;
+        this.posY = 0;
+        this.fill = "none";
+    }
+
     isPointInside(x,y){}
 }

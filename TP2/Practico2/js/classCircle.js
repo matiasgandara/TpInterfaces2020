@@ -32,4 +32,9 @@ class Circle extends Figure {
         return this.proximidad < this.radius;
     }
 
+    setNull(){
+        super.setNull();
+        this.radius=0;
+    }
+
 }

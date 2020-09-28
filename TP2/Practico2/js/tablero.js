@@ -1,31 +1,80 @@
 'use strict'
-
 //dibujando el tablero
-
-let inicX = 270;
-let inicY = 80;
+//#region Valores de tablero
+let inicX = 290;
+let inicY = 70;
 let dimX= 7;
 let dimY = 6;
 let cantWin = 4;
+//#endregion
+let juegoIniciado = false;
+
+let btnIniciar = document.querySelector("#btnIniciar");
+let btnReiniciar = document.querySelector("#btnReiniciar");
+/* btnIniciar.addEventListener("click",function(){juegoIniciado = true;});
+btnReiniciar.addEventListener("click",function(){juegoIniciado = false;}); */
+
+
+let btnFacil = document.querySelector("#btnFacil");
+let btnNormal = document.querySelector("#btnNormal");
+let btnDificil = document.querySelector("#btnDificil");
+btnFacil.addEventListener("click",nivelFacil);
+btnNormal.addEventListener("click",nivelNormal);
+btnDificil.addEventListener("click",nivelDificil);
+
 let fichasJugador =dimX * dimY;
 let tabWidth = 60;
 let tabHeight = 60;
-let tabFill = "rgb(0,0,255)";
-let fillCirc = "rgb(255,255,255)";
-let fichas = [];//Fichas de ambos equipos
-let tamFicha = (tabWidth/2) -7;
+let tabFill = "blue";
+let fillCirc = "white";
+
+
+let tamFicha = (tabWidth/2) - 7;
 /* let ficha1 = new Image;
 let ficha2 = new Image;
 let fichaWin = new Image; */
 let colorUno = "red";
 let colorDos = "yellow";
 let colorWin = "green";
-let vecinos = [];
+let fichas = [];//Fichas de ambos equipos
+let vecinos = [];//busca iguales al rededor
 let bajadas = [];//sectores de bajada de ficha
-
-//guardo el tablero
+//guardo el Tablero
 let matrizJuego = [];
 
+
+//#region NIVELES DE JUEGO
+
+
+function nivelFacil(){
+  if (!juegoIniciado){
+    inicX = 290;
+    inicY = 70;
+    dimX= 7;
+    dimY = 6;
+    cantWin = 4;
+  }
+}
+
+function nivelNormal(){
+  if (!juegoIniciado){
+    inicX = 260;
+    inicY = 70;
+    dimX= 8;
+    dimY = 6;
+    cantWin = 5;
+  }
+}
+
+function nivelDificil(){
+  if (!juegoIniciado){
+    inicX = 260;
+    inicY = 70;
+    dimX= 8;
+    dimY = 7;
+    cantWin = 6;
+  }
+}
 
 //#region cargado Juego
 function cargarTablero(){
@@ -82,7 +131,7 @@ function cargarTablero(){
   /// MODIFICA EL CUADRANTE DEL SECTOR GANADOR
   function cargarGanador(){
     for(let i = 0; i < vecinos.length ; i++){
-      matrizJuego[vecinos[i].x][vecinos[i].y].getFig1().setFill(colorWin);
+      matrizJuego[vecinos[i].y][vecinos[i].x].getFig1().setFill(colorWin);
     }
   }
 
@@ -116,7 +165,7 @@ function cargarTablero(){
         }
       cargarTablero();
       cargarBajadas();
-    drawFigures();
+      drawFigures();
   }
 
   function drawFigures(){
@@ -131,13 +180,15 @@ function cargarTablero(){
 
 //#region LOGICA DE JUEGO
 //***AGREGA LA FICHA AL FINAL*/
-function actualizarTablero(columna,color){
+function actualizarTablero(columna,ultimaFicha){
+  let color = ultimaFicha.getFill();
   let pinto = false;
-  for(let i = dimY-1; i >= 0; i--){
+  for(let i = (dimY - 1); i >= 0; i--){
     if ((matrizJuego[i][columna].getFig2().getFill() == fillCirc) && !pinto ){
       matrizJuego[i][columna].getFig2().setFill(color);
       pinto = true;
-      juegoGanado = buscaGanador(i,columna,color);
+      ultimaFicha.setNull();
+      juegoGanado = buscaGanador(columna,i,color);
     } 
   }
 }
@@ -145,32 +196,32 @@ function actualizarTablero(columna,color){
 //#endregion
 
 //#region VERIFICA SI GANO EL ULTIMO EN AGREGAR
+//pos x=columna, posY = i
 function buscaGanador(posX,posY){
-  let enLinea = 0;
-  let color = matrizJuego[posX][posY].getFig2().getFill();
-  enLinea = recursivoRectaX(posX,posY,color);
-  if(enLinea == cantWin){
+  vecinos = [];
+  let enLinea = false;
+  let color = matrizJuego[posY][posX].getFig2().getFill();
+  console.log(color);
+  enLinea = buscaRectaY(posX,posY,color);
+  if(enLinea){
     cargarGanador();
     return true;
   }
   else{
-    vecinos = [];
-    enLinea = recursivoRectaY(posX,posY,color);
-    if (enLinea == cantWin){
+    enLinea = buscaRectaX(posX,posY,color);
+    if (enLinea){
       cargarGanador();
       return true;
     }
     else {
-      vecinos = [];
-      enLinea = recursivoDiagonalI(posX,posY,color);
-      if (enLinea == cantWin){
+      enLinea = buscaDiagonalI(posX,posY,color);
+      if (enLinea){
         cargarGanador();
         return true;
       }
       else {
-        vecinos = [];
-        enLinea = recursivoDiagonalD(posX,posY,color);
-        if (enLinea == cantWin){
+        enLinea = buscaDiagonalD(posX,posY,color);
+        if (enLinea){
           cargarGanador();
           return true;
         }
@@ -180,64 +231,176 @@ function buscaGanador(posX,posY){
   return false;
 }
 
-function recursivoRectaY(posX,posY,color){
+//#region busca ganador en Y
+function buscaRectaY(posX,posY,color){
   let suma = 0;
-  if (posX >= 0 && posX <= dimX){
-    if (matrizJuego[posX][posY].getFig2().getFill() == color){
+  suma = recursivoAbajo(posX,posY+1,color) + 1;
+  if(suma >= cantWin){
+    vecinos.push({ 
+      "x": posX,
+      "y": posY,}); 
+      return true;
+  }
+  vecinos = [];
+  return false;
+}
+
+function recursivoAbajo(posX,posY,color){
+  let suma = 0;
+  if (posY < dimY){
+    console.log(posY+" Y , X "+ posX);
+    let colorActual = matrizJuego[posY][posX].getFig2().getFill();
+    if (colorActual == color){
       vecinos.push({ 
         "x": posX,
         "y": posY,});
-      suma+= recursivoRectaY(posX - 1,posY, color);
+      suma+= recursivoAbajo(posX,posY+1,color);
+      return (suma + 1);
+    }
+  }
+  return 0;
+}
+//#endregion
+
+//#region busca Ganador en X
+function buscaRectaX(posX,posY,color){
+  let suma = 0;
+  suma = recursivoAtras(posX-1,posY,color) + 1;
+  if (suma < cantWin){
+    suma+= recursivoAdelante(posX+1,posY,color);
+  }
+  if(suma >= cantWin){
+    vecinos.push({ 
+      "x": posX,
+      "y": posY,});
+      return true;
+  }
+  vecinos = [];
+  return false;
+}
+
+function recursivoAtras(posX, posY, color){
+  let suma = 0;
+  if (posX >= 0){
+    if (matrizJuego[posY][posX].getFig2().getFill() == color){
+      vecinos.push({ 
+        "x": posX,
+        "y": posY,});
+      suma+= recursivoAtras(posX-1,posY, color);
       return (suma + 1);
     }
   }
   return 0;
 }
 
-function recursivoRectaX(posX, posY, color){
+function recursivoAdelante(posX,posY,color){
   let suma = 0;
-  if (posY<= dimY && posY >= 0){
-    if (matrizJuego[posX][posY].getFig2().getFill() == color){
+  if (posX < dimX){
+    if (matrizJuego[posY][posX].getFig2().getFill() == color){
       vecinos.push({ 
         "x": posX,
         "y": posY,});
-      suma+= recursivoRectaX(posX, posY - 1, color);
-      suma+= recursivoRectaX(posX, posY + 1, color);
+      suma+= recursivoAdelante(posX+1,posY,color);
+      return (suma + 1);
+    }
+  }
+  return 0;
+}
+//#endregion
+
+//#region busca ganador en diagonal Izquierda
+function buscaDiagonalI(posX,posY,color){
+  let suma = 0;
+  suma = recursivoAtrasI(posX+1,posY-1,color) + 1;
+  if (suma < cantWin){
+    suma+= recursivoAdelanteI(posX-1,posY+1,color);
+  }
+  if(suma >= cantWin){
+    vecinos.push({ 
+      "x": posX,
+      "y": posY,});
+      return true;
+  }
+  vecinos = [];
+  return false;
+}
+
+function recursivoAtrasI(posX, posY, color){
+  let suma = 0;
+  if (posY >= 0 && posX < dimX){
+    if (matrizJuego[posY][posX].getFig2().getFill() == color){
+      vecinos.push({ 
+        "x": posX,
+        "y": posY,});
+      suma+= recursivoAtrasI(posX+1,posY-1,color);
       return (suma + 1);
     }
   }
   return 0;
 }
 
-function recursivoDiagonalI(posX,posY,color){
+function recursivoAdelanteI(posX, posY, color){
   let suma = 0;
-  if (posX <= dimX && posX >= 0 && posY<= dimY && posY >= 0){
-    if (matrizJuego[posX][posY].getFig2().getFill() == color){
+  if (posX >= 0 && posY < dimY){
+    if (matrizJuego[posY][posX].getFig2().getFill() == color){
       vecinos.push({ 
         "x": posX,
         "y": posY,});
-      suma+= recursivoDiagonalI(posX + 1, posY - 1, color);
-      suma+= recursivoDiagonalI(posX - 1, posY + 1, color);
+      suma+= recursivoAdelanteI(posX-1,posY+1,color);
       return (suma + 1);
     }
   }
   return 0;
 }
 
-function recursivoDiagonalD(posX,posY,color){
+//#endregion
+
+//#region busca ganador en diagonal Derecha
+
+function buscaDiagonalD(posX,posY,color){
   let suma = 0;
-  if (posX <= dimX && posX >= 0 && posY<= dimY && posY >= 0){
-    if (matrizJuego[posX][posY].getFig2().getFill() == color){
+  suma = recursivoAtrasD(posX-1,posY-1,color) + 1;
+  if (suma < cantWin){
+    suma+= recursivoAdelanteD(posX+1,posY+1,color);
+  }
+  if(suma >= cantWin){
+    vecinos.push({ 
+      "x": posX,
+      "y": posY,});
+      return true;
+  }
+  vecinos = [];
+  return false;
+}
+
+function recursivoAdelanteD(posX,posY,color){
+  let suma = 0;
+  if (posX < dimX && posY < dimY){
+    if (matrizJuego[posY][posX].getFig2().getFill() == color){
       vecinos.push({ 
         "x": posX,
         "y": posY,});
-      suma+= recursivoDiagonalD(posX + 1, posY + 1, color);
-      suma+= recursivoDiagonalD(posX - 1, posY - 1, color);
+      suma+= recursivoAdelanteD(posX+1,posY+1,color);
       return (suma + 1);
     }
   }
   return 0;
 }
 
+function recursivoAtrasD(posX,posY,color){
+  let suma = 0;
+  if (posX >= 0 && posY >= 0){
+    if (matrizJuego[posY][posX].getFig2().getFill() == color){
+      vecinos.push({ 
+        "x": posX,
+        "y": posY,});
+      suma+= recursivoAdelanteD(posX-1,posY-1,color);
+      return (suma + 1);
+    }
+  }
+  return 0;
+}
+
+//#endregion
 
 //#endregion

@@ -1,3 +1,27 @@
 body {
-    background-image:url("/Practico2/image/fondo2.jpg");
+    background-image:url("../image/fondo2.jpg");
+}
+
+.playroom {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.opciones {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.levels {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.inicio {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

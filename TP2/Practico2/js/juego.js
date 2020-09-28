@@ -3,10 +3,8 @@ let canvas = document.querySelector('#myCanvas');
 let ctx = canvas.getContext("2d"); 
 
 //valores de juego.. dimensiones de tablero y cantidad de fichas
-let MAXFIGURES = 10;
-let SIZEFIGURES = 25;
-let MAXFICHAS = 21;
-let juegoGanado = false;
+
+let juegoGanado = false;//marcador de fin de juego
 let lostPos = null;
 let lastClickedFigure = null;
 let isMouseDown = false;
@@ -24,6 +22,7 @@ window.onload = function(){
     dibujarFichas();
     let isMouseDown = false;
     let lastClickedFigure = null;
+    let ultimoColor = "yellow";
 
 
     c.onmousedown = function (e){
@@ -51,7 +50,9 @@ window.onload = function(){
                 if(bajadas[i].isPointInside(pos.x,pos.y)){
                     lastClickedFigure.setPosition(pos.x,pos.y);
                     encontro = true;
-                    actualizarTablero(i,lastClickedFigure.getFill());
+                    actualizarTablero(i,lastClickedFigure);
+                    /* lastClickedFigure.setNull();
+                    lastClickedFigure.draw(); */
                 }
             }
             if (!encontro){
