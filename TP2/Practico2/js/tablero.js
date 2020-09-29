@@ -1,4 +1,4 @@
-'use strict'
+
 //dibujando el tablero
 //#region Valores de tablero
 let inicX = 290;
@@ -6,42 +6,62 @@ let inicY = 70;
 let dimX= 7;
 let dimY = 6;
 let cantWin = 4;
-//#endregion
-let juegoIniciado = false;
-
-let btnIniciar = document.querySelector("#btnIniciar");
-let btnReiniciar = document.querySelector("#btnReiniciar");
-/* btnIniciar.addEventListener("click",function(){juegoIniciado = true;});
-btnReiniciar.addEventListener("click",function(){juegoIniciado = false;}); */
-
-
-let btnFacil = document.querySelector("#btnFacil");
-let btnNormal = document.querySelector("#btnNormal");
-let btnDificil = document.querySelector("#btnDificil");
-btnFacil.addEventListener("click",nivelFacil);
-btnNormal.addEventListener("click",nivelNormal);
-btnDificil.addEventListener("click",nivelDificil);
-
-let fichasJugador =dimX * dimY;
 let tabWidth = 60;
 let tabHeight = 60;
 let tabFill = "blue";
 let fillCirc = "white";
-
-
-let tamFicha = (tabWidth/2) - 7;
-/* let ficha1 = new Image;
-let ficha2 = new Image;
-let fichaWin = new Image; */
 let colorUno = "red";
-let colorDos = "yellow";
-let colorWin = "green";
+let colorDos = "green";
+let colorWin = "yellow";
 let ultimoColor = colorDos;
+let fichasJugador = null;
+let tamFicha = null;
+//#endregion
+let juegoIniciado = false;
+
 let fichas = [];//Fichas de ambos equipos
 let vecinos = [];//busca iguales al rededor
 let bajadas = [];//sectores de bajada de ficha
 //guardo el Tablero
 let matrizJuego = [];
+
+
+let btnIniciar = document.querySelector("#btnIniciar");
+let btnReiniciar = document.querySelector("#btnReiniciar");
+let btnFacil = document.querySelector("#btnFacil");
+let btnNormal = document.querySelector("#btnNormal");
+let btnDificil = document.querySelector("#btnDificil");
+
+
+
+btnIniciar.addEventListener("click",
+            function (){
+              juegoIniciado = true;
+              juegoGanado = false;
+              dibujarFichas();
+            });
+btnReiniciar.addEventListener("click",
+                function (){
+                    juegoIniciado = false;
+                    dibujarFichas();
+                  });
+
+btnFacil.addEventListener('click',nivelFacil);
+btnNormal.addEventListener('click',nivelNormal);
+btnDificil.addEventListener('click',nivelDificil);
+
+
+console.log(cantWin);
+//cargarParametros();
+
+//****************FIN SECUENCIAL *************/
+
+function cargarParametros(){
+  fichasJugador =dimX * dimY;
+  tamFicha = (tabWidth/2) - 7;
+}
+
+
 
 
 //#region NIVELES DE JUEGO
@@ -54,6 +74,8 @@ function nivelFacil(){
     dimX= 7;
     dimY = 6;
     cantWin = 4;
+    cargarParametros();
+    dibujarFichas();
   }
 }
 
@@ -64,6 +86,8 @@ function nivelNormal(){
     dimX= 8;
     dimY = 6;
     cantWin = 5;
+    cargarParametros();
+    dibujarFichas();
   }
 }
 
@@ -74,8 +98,13 @@ function nivelDificil(){
     dimX= 8;
     dimY = 7;
     cantWin = 6;
+    console.log(cantWin);
+    cargarParametros();
+    dibujarFichas();
   }
 }
+
+//#endregion
 
 //#region cargado Juego
 function cargarTablero(){
@@ -88,7 +117,8 @@ function cargarTablero(){
         matrizJuego[i]=[];
         for(let j = 0; j < dimX; j++){
             let rect = new Rect(posX,posY,color,ctx,ancho,alto);
-            let circ = new Circle(posX+(ancho/2),posY+(alto/2),fillCirc,(ancho/2)-10,ctx);
+            let dir = "image/FichaNegra.png"
+            let circ = new Ficha(posX+(ancho/2),posY+(alto/2),fillCirc,(ancho/2)-10,ctx,dir);
             //guardo el estado de casillero, arranca en blanco
             let compuesto = new FigCompuesta(rect,circ);
             matrizJuego[i][j] = compuesto;
@@ -104,16 +134,19 @@ function cargarTablero(){
     let posX = Math.round(Math.random() * X);
     let posY = Y + Math.round(Math.random() * (canvasHeight - Y));
     let radio = tamFicha;
-    let circle = new Circle(posX,posY,color,radio,ctx);
-    return circle;
+    let dir= "image/FichaRoja.png";
+    let ficha = new Ficha(posX,posY,color,radio,ctx,dir);
+    return ficha;
   }
 
   function addFichaA(X,Y,color){
     let posX = canvasWidth - (Math.round(Math.random() * X));
     let posY = Y + Math.round(Math.random() * (canvasHeight - Y));
     let radio = tamFicha;
-    let circle = new Circle(posX,posY,color,radio,ctx);
-    return circle;
+    let dir= "image/FichaVerde.png";
+    let ficha = new Ficha(posX,posY,color,radio,ctx,dir);
+    return ficha;
+
   }
 
 
@@ -121,9 +154,9 @@ function cargarTablero(){
     let posY = inicY - tamFicha;
     let posX = inicX + (tabWidth/2);
     let radio = tamFicha;
+    let dir = "image/flecha2.png";
     for(let i = 0; i < dimX; i++){
-      /* let rect = new Rect(posX,posY,"green",ctx,tabHeight,tabWidth); */
-      let circle = new Circle(posX,posY,"green",radio,ctx);
+      let circle = new Ficha(posX,posY,"green",radio,ctx,dir);
       bajadas[i] = circle;
       posX+=tabWidth;
     }
@@ -133,6 +166,8 @@ function cargarTablero(){
   function cargarGanador(){
     for(let i = 0; i < vecinos.length ; i++){
       matrizJuego[vecinos[i].y][vecinos[i].x].getFig1().setFill(colorWin);
+      juegoGanado = true;
+      juegoIniciado = false;
     }
   }
 
@@ -170,12 +205,14 @@ function cargarTablero(){
   }
 
   function drawFigures(){
-    clearCanvas(ctx,colorClean);
+    //clearCanvas(ctx,colorClean);
+    clearCanvasImg(ctx,imgFondo);
     dibujarTablero();
-    for (let i=0; i < fichas.length; i++){
+    if (juegoIniciado){
+      for (let i=0; i < fichas.length; i++){
         fichas[i].draw();
+      }
     }
-    
 }
 //#endregion
 
@@ -183,10 +220,12 @@ function cargarTablero(){
 //***AGREGA LA FICHA AL FINAL*/
 function actualizarTablero(columna,ultimaFicha){
   let color = ultimaFicha.getFill();
+  let dir = ultimaFicha.getDir();
   let pinto = false;
   for(let i = (dimY - 1); i >= 0; i--){
     if ((matrizJuego[i][columna].getFig2().getFill() == fillCirc) && !pinto ){
       matrizJuego[i][columna].getFig2().setFill(color);
+      matrizJuego[i][columna].getFig2().setDir(dir);
       pinto = true;
       ultimoColor = ultimaFicha.getFill();
       ultimaFicha.setNull();
@@ -406,3 +445,4 @@ function recursivoAtrasD(posX,posY,color){
 //#endregion
 
 //#endregion
+

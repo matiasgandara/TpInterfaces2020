@@ -10,8 +10,11 @@ let lastClickedFigure = null;
 let isMouseDown = false;
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
-let colorClean = "rgb(255,255,255)";
-clearCanvas(ctx,colorClean);
+let imgFondo= new Image();
+imgFondo.src = "image/fondoOscuro.jpg";
+imgFondo.onload = function (){
+    clearCanvasImg(ctx,imgFondo);
+}
 
 window.onload = function(){
     
@@ -22,9 +25,8 @@ window.onload = function(){
     dibujarFichas();
     let isMouseDown = false;
     let lastClickedFigure = null;
-    
 
-
+  
     c.onmousedown = function (e){
         isMouseDown = true;
         if (lastClickedFigure != null){
@@ -72,6 +74,7 @@ window.onload = function(){
         }
     }
 
+
 // ver la clickeada
         function findClickedFigure(layerX, layerY){
             for (let index = 0; index < fichas.length; index++){
@@ -81,6 +84,8 @@ window.onload = function(){
                 }
             }
         }  
-};
 
     
+    
+};
+

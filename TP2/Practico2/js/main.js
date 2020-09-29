@@ -83,10 +83,15 @@ function drawFigures(){
 function addCircle(){
   let posX = Math.round(Math.random() * canvasWidth);
   let posY = Math.round(Math.random() * canvasHeight);
+  let img = new Image();
+  img.src = "image/FichaRoja.png";
   let radio = SIZEFIGURES;
   let color = randomRGBA();
-  let circle = new Circle(posX,posY,color,radio,ctx);
-  figures.push(circle);
+  img.onload = function(e){
+            let ficha = new Ficha(posX,posY,color,radio,ctx,img);
+            figures.push(ficha);
+    }  /* let circle = new Circle(posX,posY,color,radio,ctx);
+  figures.push(circle); */
 }
 
 function addRect(){

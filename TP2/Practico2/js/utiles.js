@@ -4,10 +4,7 @@ function clearCanvas(ctx,color){
 }
 
 function clearCanvasImg(ctx,img){
-
-    
-    ctx.fillStyle = color;
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        ctx.drawImage(img,0,0);
 }
 
 

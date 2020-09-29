@@ -10,6 +10,10 @@ class Figure{
         this.seleccionadoStyle = "rgb(0,0,0)";
     }
 
+    getContext(){
+        return this.context;
+    }
+
     setFill(fill){
         this.fill = fill;
     }
