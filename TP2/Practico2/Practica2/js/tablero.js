@@ -52,7 +52,7 @@ btnDificil.addEventListener('click',nivelDificil);
 
 
 console.log(cantWin);
-//cargarParametros();
+cargarParametros();
 
 //****************FIN SECUENCIAL *************/
 
@@ -74,6 +74,7 @@ function nivelFacil(){
     dimX= 7;
     dimY = 6;
     cantWin = 4;
+    document.getElementById('lineas').innerHTML = cantWin;
     cargarParametros();
     dibujarFichas();
   }
@@ -86,6 +87,7 @@ function nivelNormal(){
     dimX= 8;
     dimY = 6;
     cantWin = 5;
+    document.getElementById('lineas').innerHTML = cantWin;
     cargarParametros();
     dibujarFichas();
   }
@@ -99,6 +101,7 @@ function nivelDificil(){
     dimY = 7;
     cantWin = 6;
     console.log(cantWin);
+    document.getElementById('lineas').innerHTML = cantWin;
     cargarParametros();
     dibujarFichas();
   }
@@ -174,6 +177,9 @@ function cargarTablero(){
 //#endregion
 
 //#region dibujado de Juego
+
+  
+
   function dibujarTablero(){
     dibujarBajadas();
     for(let i=0; i < dimY; i++){
@@ -193,7 +199,7 @@ function cargarTablero(){
   function dibujarFichas(){
       let initAltura = inicY + 250; 
       let limitRojoX = inicX -20;
-      let inicAmarilloX = canvasWidth - (limitRojoX + tabWidth * dimX) -20;
+      let inicAmarilloX = canvasWidth - (limitRojoX + tabWidth * dimX) - 40;
         for (let i=0; i < fichasJugador; i++){
             fichas[i]=addFichaR(limitRojoX,initAltura,colorUno);
             i++;
@@ -205,7 +211,6 @@ function cargarTablero(){
   }
 
   function drawFigures(){
-    //clearCanvas(ctx,colorClean);
     clearCanvasImg(ctx,imgFondo);
     dibujarTablero();
     if (juegoIniciado){
@@ -435,7 +440,7 @@ function recursivoAtrasD(posX,posY,color){
       vecinos.push({ 
         "x": posX,
         "y": posY,});
-      suma+= recursivoAdelanteD(posX-1,posY-1,color);
+      suma+= recursivoAtrasD(posX-1,posY-1,color);
       return (suma + 1);
     }
   }

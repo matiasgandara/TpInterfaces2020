@@ -11,7 +11,7 @@ let isMouseDown = false;
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
 let imgFondo= new Image();
-imgFondo.src = "image/fondoOscuro.jpg";
+imgFondo.src = "image/original.jpg";
 imgFondo.onload = function (){
     clearCanvasImg(ctx,imgFondo);
 }
