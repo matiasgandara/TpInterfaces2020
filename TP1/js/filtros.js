@@ -23,6 +23,8 @@ function imagenCargada(e){
         let imgData = ctx.getImageData(0, 0,alto,ancho);
         let filtro = false;
         // aplicacion de filtros
+   
+       //#region Btn Filtros simples
         let btnInvertir = document.querySelector("#btnInvertir");
         btnInvertir.addEventListener("click",invertir);
         let btnGrises = document.querySelector("#btnGrises");
@@ -33,12 +35,17 @@ function imagenCargada(e){
         btnBinario.addEventListener("click",filtroBinario);
         let btnOriginal = document.querySelector("#btnOriginal");
         btnOriginal.addEventListener("click",original);
-
+  //#endregion
+       
+  
+//#region Btn Filtro Avanzado 
         let btnLineas = document.querySelector("#btnLineas");
         btnLineas.addEventListener("click",detectarBordes);
         let btnSuavizado = document.querySelector("#btnSuavizar");
         btnSuavizado.addEventListener("click",suavizar);
-
+//#endregion
+        
+//#region  Implementacion Filtros Simples
         function original(){
           ajustar(imgOriginal);
           imgData = ctx.getImageData(0, 0,alto,ancho);
@@ -83,15 +90,23 @@ function imagenCargada(e){
           }
         }
 
+
+        function promGradientePorc(imgData,i){
+          let grayR = imgData.data[i] * 0.3;
+			    let grayG = imgData.data[i+1] * 0.59;
+			    let grayB = imgData.data[i+2] * 0.11;
+          let gray = grayR + grayG + grayB;
+          return gray;
+        }
         
         function escGrises(){//Genera imagen en escala de grices
            let grises = imgData;
-            for (let i = 0; i < imgData.data.length; i += 4) {
-              let promedio = promGradiente(imgData,i);
+            for (let i = 0; i < grises.data.length; i += 4) {
+              let promedio = promGradientePorc(grises,i);
               grises.data[i] = promedio;
               grises.data[i+1] = promedio;
               grises.data[i+2] = promedio;
-             // imgData.data[i+3] = 255;
+              grises.data[i+3] = promedio;
             }
             return grises;
           }
@@ -127,6 +142,8 @@ function imagenCargada(e){
           ctx.putImageData(imgData, 0, 0);}
         }
 
+//#endregion
+
 
         function mayorGradiente(imgd,i){// calcula el gradiente mayor peso
           let prom = promGradiente(imgd,i);
@@ -150,26 +167,32 @@ function imagenCargada(e){
           el.href = imageURI;
         }
 
-        function getVecinos(imgOrigen,x,y){
-          let dataCopy = [0,0,0,0];
+ /*        function getVecinos(imgOrigen,x,y){
+          let dataCopy = {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0,
+          };
           let vecino = [];
           let pixx = x-1;
           let pixy = y-1;
+          let pos = 0;
           for (let i = 0; i <= 2; i++){
             vecino[i]=[];
             for(let j = 0; j <= 2; j++){
               if((pixx >= 0) && (pixy>=0) && (pixy < imgOrigen.height) && (pixx < imgOrigen.width)){
-                  let pos = (pixx + pixy*imgOrigen.width)*4;
-                  dataCopy[0]= imgOrigen.data[pos];
-                  dataCopy[1]= imgOrigen.data[pos+1];
-                  dataCopy[2]= imgOrigen.data[pos+2];
-                  dataCopy[3]= imgOrigen.data[pos+3];
+                  pos = (pixx + pixy*imgOrigen.width)*4;
+                  dataCopy.r= imgOrigen.data[pos];
+                  dataCopy.g= imgOrigen.data[pos+1];
+                  dataCopy.b= imgOrigen.data[pos+2];
+                  dataCopy.a= imgOrigen.data[pos+3];
                 }
                 else{
-                  dataCopy[0]= 0;
-                  dataCopy[1]= 0;
-                  dataCopy[2]= 0;
-                  dataCopy[3]= 0;
+                  dataCopy.r= 0;
+                  dataCopy.g= 0;
+                  dataCopy.b= 0;
+                  dataCopy.a= 0;
                  }
                  vecino[i][j]= dataCopy;
                  pixx++;
@@ -177,66 +200,90 @@ function imagenCargada(e){
             pixy++;
           }
           return vecino;
-        }
+        } */
 
-        function detectarBordes(){
+        /* function detectarBordes(){
           let imgparcial = escGrises();
-          //let param=document.querySelector("#parametro").value*1000;
-          let param = 1000;
-          let kernelX=[[-1,-2,-1],[0,0,0],[1,2,1]];
-          let kernelY=[[-1,0,1],[-2,0,2],[-1,0,1]];
-          let result=imgparcial;
-          for (let y=0;y<imgparcial.height;y++){
-              for (let x=0;x<imgparcial.width;x++){
+          let param = 100;// ver;
+          let kernelY=[[-1,-2,-1],[0,0,0],[1,2,1]];
+          let kernelX=[[-1,0,1],[-2,0,2],[-1,0,1]];
+          let result = ctx.getImageData(0,0,c.width,c.height);
+          for (let y=0; y < imgparcial.height; y++){
+              for (let x = 0; x < imgparcial.width; x++){
                   let index=(x+y*c.width)*4;
-                  let gx=0; let gy=0;
-                  let vecinos = getVecinos(imgparcial,x,y);
-                  
-                  for (let i = 0; i <=2; i++) {
-                      for (let j = 0; j <=2; j++) {
-                          gx+=vecinos[i][j][0]*kernelX[i][j];
-                          gy+=vecinos[i][j][0]*kernelY[i][j];
+                  let gx=0; 
+                  let gy=0;
+                  let vecinos = getVecinos(imgparcial,x,y);  
+                  for (let i = 0; i < 3; i++) {
+                      for (let j = 0; j < 3; j++) {
+                          let quepasa = imgparcial.data[index]; 
+                          gx += vecinos[i][j].r * kernelX[i][j];
+                          gy += vecinos[i][j].r * kernelY[i][j];
                       }
                   }
-                  let color=Math.sqrt(gx*gx+gy*gy);
-                  if (color>param)
+                  let color = Math.sqrt(gx*gx+gy*gy);
+                  //console.log(color);
+                  if (color > param){
                       color=255;
-                  else color=0;
+                  }
+                  else {color= 0;}
                   result.data[index+0]=color;
                   result.data[index+1]=color;
                   result.data[index+2]=color;
               }
-          }
-          ctx.putImageData(result,0,0);
+            }
+            ctx.putImageData(result,0,0);
         }
+ */
 
-
-        function suavizar(){
-          let kernel = [[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]];
-          let result = imgData;
-          for (let y=0;y<c.height;y++){
-            for (let x=0;x<c.width;x++){
-              let index=(x+y*imgData.width)*4;
-              let vecinos=getVecinos(imgData,x,y);
-              let R=0; let G=0; let B=0;
-              for (let i = 0; i <=2; i++) {
-                  for (let j = 0; j <=2; j++) {
-                      R+=vecinos[i][j][0]*kernel[i][j];
-                      G+=vecinos[i][j][1]*kernel[i][j];
-                      B+=vecinos[i][j][2]*kernel[i][j];
+       
+        function detectarBordes() {
+          let reducedImage = escGrises();
+          let width = reducedImage.width;
+          let height = reducedImage.height;
+          let pixels = imgData.data;
+          let value = 0;
+          let kernelX = [[-1,0,1],[-2,0,2],[-1,0,1]];
+          let kernelY=[[-1,-2,-1],[0,0,0],[1,2,1]];
+          let getReducedValue = function(x, y) {
+              let index=(x + y * width)*4;
+              return (x < 0 || width <= x || y < 0 || height <= y) ? 0: reducedImage.data[index];
+          }
+          let calcValue = function(x, y) {
+              let result = 0;
+              let gx = 0;let gy=0;
+              for (let i = -1; i <= 1; i++) {
+                  for (let j = -1; j <= 1; j++) {
+                      gx += kernelX[i + 1][j + 1] * getReducedValue(x + i, y + j);
+                      gy += kernelY[i + 1][j + 1] * getReducedValue(x + i, y + j);
                   }
               }
-              result.data[index]=R;
-              result.data[index+1]=G;
-              result.data[index+2]=B;
-            }
-           }
-           ctx.putImageData(result,0,0);
+              result = Math.sqrt(gx*gx+gy*gy);
+              return result;
+          }
+  
+          for (let i = 0; i < pixels.length; i+=4) {
+              x = Math.floor((i / 4 / width));
+              y = Math.floor((i / 4) % width);
+              value = Math.min(calcValue(x, y), 255);
+             /*  let color = 0;
+              if (value > 254){
+                color = 255;
+              }
+              else{
+                value = 0;
+              }  */
+              pixels[i] = value;
+              pixels[i+1] = value;
+              pixels[i+2] = value;  
+
+          }
+          ctx.putImageData(imgData, 0, 0);
         }
-      };
-    
-    }
+    };
+  }
 }
+
 
  
 function enBlanco(){// pone el lienzo en blanco.
