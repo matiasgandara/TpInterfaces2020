@@ -167,7 +167,7 @@ function imagenCargada(e){
           el.href = imageURI;
         }
 
- /*        function getVecinos(imgOrigen,x,y){
+        function getVecinos(imgOrigen,x,y){
           let dataCopy = {
             "r" : 0,
             "g" : 0,
@@ -200,9 +200,9 @@ function imagenCargada(e){
             pixy++;
           }
           return vecino;
-        } */
+        }
 
-        /* function detectarBordes(){
+        function detectarBordes(){
           let imgparcial = escGrises();
           let param = 100;// ver;
           let kernelY=[[-1,-2,-1],[0,0,0],[1,2,1]];
@@ -234,10 +234,10 @@ function imagenCargada(e){
             }
             ctx.putImageData(result,0,0);
         }
- */
+
 
        
-        function detectarBordes() {
+        function detectarBordesDoble() {
           let reducedImage = escGrises();
           let width = reducedImage.width;
           let height = reducedImage.height;

@@ -1,0 +1,69 @@
+@keyframes brillo {
+    0% {
+      top: -240%;
+    }
+    100% {
+      top: 100%;
+    }
+}
+
+body { font-family: sans-serif; }
+
+.scene {
+  width: 400px;
+  height: 225px;
+  border: 1px solid #CCC;
+  margin: 40px 0;
+  perspective: 600px;
+}
+
+.card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: center right;
+  transition: transform 1s;
+}
+
+.card.is-flipped {
+  transform: translateX(-100%) rotateY(-180deg);
+}
+
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  line-height: 260px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px;
+  backface-visibility: hidden;
+}
+
+.card__face--front {
+  background-image: url(../image/gatubelamini.jpg);
+}
+
+/* .front {
+    background-color: #1976d2;
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: -50px;
+      width: 130%;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(-15deg);
+      animation: example 1.5s linear infinite;
+    }
+  } */
+
+.card__face--back {
+    background-image: url(../image/gordonmini.jpg);
+    transform: rotateY(180deg);
+}

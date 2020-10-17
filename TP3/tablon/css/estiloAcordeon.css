@@ -1,0 +1,54 @@
+@keyframes runermove{
+    from{background-position-x:0px;}
+      to{background-position-x:-512px;}
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+.acordeon input {
+    display: none;
+}
+
+.acordeon__titulo {
+    display: block;
+    padding: 15px;
+    background: blue;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #fff;
+}
+.acordeon__titulo:hover {
+    background: rgba(220, 220, 60, 0.8);
+}
+
+.acordeon__contenido {
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    transition: all 0.5s;
+}
+
+.acordeon input:checked ~ .acordeon__contenido{
+    height: auto;
+    margin: 15px 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 50%;
+    width: 50%;
+
+}
+
+.runer {
+    width: 128px;   /* Viewport-width */
+    height: 128px;   /* Viewport-height */
+    margin: 2em auto;   /* Little margin */
+    background: transparent url('../image/spritesheetH.png') 0 0 no-repeat;   /* Our sprite as the viewport background */
+    animation: runermove 1s steps(4) infinite; /* The Animation */
+  }

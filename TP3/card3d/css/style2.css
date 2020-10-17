@@ -1,0 +1,31 @@
+section {
+    width: 400px;
+    height: 300;
+}
+
+
+.flip{
+    position: relative;
+    transition: all 1s ease;
+    height: 150;
+    width: 250;
+    transform: perspective(250px);
+    transform-origin: 100% 50%;
+    transform-style: preserve-3d;
+    }
+    
+.flip:hover{
+    transform: perspective(250px) rotateY(-180deg) translateX(100%);
+}
+
+
+
+
+.flip .flip-1,
+.flip .flip-2{
+position: absolute;
+backface-visibility: hidden;
+}
+.flip .flip-2{
+transform: rotateY(-180deg);
+}

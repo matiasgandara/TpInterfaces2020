@@ -1,0 +1,99 @@
+.capas {
+    position: relative;
+    max-width: 650px;
+    margin: auto;
+  }
+  .capas img {
+    position: absolute;
+    max-width: 100%;
+    transition: all ease 1250ms;
+  }
+
+  .capas .texto {
+    position: absolute;
+    top: 220px;
+    left: 50px;
+    max-width: 100%;
+    transition: all ease 1250ms;
+  }
+
+  .capas:hover .capa0 {
+ 
+    transform: perspective(2000px)  rotateZ(0deg) translateY(0px) translateZ(0px);
+  }
+  .capas:hover .capa1 {
+  
+    transform: perspective(2000px) rotateZ(0deg) translateY(0px) translateZ(40px);
+    opacity: .6;
+  }
+
+  .texto {
+      color: ivory;
+  }
+
+
+  /******aca lo nuevo*****/
+  #mainWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 350px;
+  }
+  
+  #cardsWrapper{
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    
+  }
+  
+  .card{
+    width: 300px;
+    height: 175px;
+    perspective: 500px;
+    position: relative;
+  }
+  
+  .image{
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(30deg) rotateY(30deg);
+  }
+  
+  .image.first{
+    background-image: url("../image/.jpg");
+  }
+  
+  .image.second{
+    background-image: url("../image/gatubela.jpg");
+  }
+  
+  .screen{
+    background-color: rgba(0, 0, 0, 0.22);
+    width: 100%;
+    height: 100%;
+    transform: translateZ(30px) scale(0.940);
+  }
+  
+  .text{
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+    color: white;
+    transform: translateZ(30px) scale(0.940);
+  }
+  
+  .text p{
+      cursor: default;
+      padding: 0;
+      margin: 0;
+  }
+  
+  .text p:first-of-type{
+      font-size: 2em;
+      margin-bottom: 5px;
+  }
+  .text p:last-of-type{
+      font-size: 1em;
+  }

@@ -120,7 +120,7 @@ function cargarTablero(){
         matrizJuego[i]=[];
         for(let j = 0; j < dimX; j++){
             let rect = new Rect(posX,posY,color,ctx,ancho,alto);
-            let dir = "image/FichaNegra.png"
+            let dir = "image/FichaNegra.png";
             let circ = new Ficha(posX+(ancho/2),posY+(alto/2),fillCirc,(ancho/2)-10,ctx,dir);
             //guardo el estado de casillero, arranca en blanco
             let compuesto = new FigCompuesta(rect,circ);
@@ -294,7 +294,7 @@ function buscaRectaY(posX,posY,color){
 function recursivoAbajo(posX,posY,color){
   let suma = 0;
   if (posY < dimY){
-    console.log(posY+" Y , X "+ posX);
+    
     let colorActual = matrizJuego[posY][posX].getFig2().getFill();
     if (colorActual == color){
       vecinos.push({ 
