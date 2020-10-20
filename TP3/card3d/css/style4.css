@@ -1,0 +1,80 @@
+.cards{
+  display: flex;
+  flex-direction: row;
+}
+
+.flip-container {
+    background-color: transparent;
+    width: 400px;
+    height: 225px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    perspective: 1000px; 
+  }
+  .card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+  }
+  .flip-container:hover .card {
+    transform: rotateY(180deg);
+  }
+  .front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+  }
+#primera .front{
+  background-image: url(../image/gordonmini.jpg);
+}
+
+#primera .back{
+  background-image: url(../image/gordonmini.jpg);
+}
+
+#segunda .front{
+  background-image: url(../image/gatubelamini.jpg);
+}
+
+#segunda .back{
+  background-image: url(../image/gatubelamini.jpg);
+}
+
+#tercera .front{
+  background-image: url(../image/pinguinomini.jpg);
+}
+
+#tercera .back{
+  background-image: url(../image/pinguinomini.jpg);
+}
+  .front {
+    color: #fff;
+    
+  }
+  .back {
+    
+    color: white;
+    transform: rotateY(180deg);
+  }
+
+  .front p{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    font-size: 20px;
+  }
+
+.back p{
+    position: absolute;
+    font-size: 15px;
+    left: 5px;
+    top: 155px;
+}

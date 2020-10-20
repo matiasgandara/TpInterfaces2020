@@ -1,0 +1,17 @@
+@keyframes cargar{
+    0%{transition: linear; background-color: greenyellow;}
+    50%{transition: linear; background-color: greenyellow;}
+    100%{transition: linear; background-color: greenyellow;}
+	
+}
+
+.progress:hover{
+   /*  background-color: lightslategray; */
+    animation: cargar 4s linear 5s;
+}
+
+.progress{
+    background-color: lightcoral;
+    height: 30px;
+    width: 100px;
+}

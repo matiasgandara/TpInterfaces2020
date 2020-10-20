@@ -6,6 +6,8 @@ let mountain = document.querySelector("#mountain");
 let road = document.querySelector("#road");
 let text = document.querySelector("#text");
 
+
+
 window.addEventListener('scroll', function(){
     let value = window.scrollY;
 
@@ -15,3 +17,4 @@ window.addEventListener('scroll', function(){
     road.style.top = value * 0.15 + 'px';
     text.style.top = value * 1 + 'px';
 })
+

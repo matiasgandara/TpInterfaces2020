@@ -63,6 +63,8 @@ body { font-family: sans-serif; }
     }
   } */
 
+
+
 .card__face--back {
     background-image: url(../image/gordonmini.jpg);
     transform: rotateY(180deg);

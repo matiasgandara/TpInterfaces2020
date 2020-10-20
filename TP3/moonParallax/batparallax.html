@@ -7,25 +7,43 @@
     <title>Document</title>
 </head>
 <body>
-        <footer class="menu">
-
-        </footer>
-        <section id="comienzo">
-            <div class="nubebat"></div>
-            <div class="centro">
-                <img src="image/b.png" id="cielo">
-                <img src="image/logocentrado.png" id="logo">
-                <img src="image/a.png" id="road">
-                <h1 id="text">Vuelve..</h1>
-            </div>
-        </section>
-        <section id="personajes">
-
-        </section>
-        <section id="calendar">
-
-        </section>
+        <div class="loading">
+            <span class="spinner"></span>
+        </div>
+        <div id="pagina">
+            <footer class="menu">
+            
+            </footer>
+            <section id="comienzo">
+                
+                <div class="centro">
+                    <img src="image/b.png" id="cielo">
+                    <img src="image/nubess.png" id="nubes"> 
+                    <img src="image/nube_Bat_2.png" id="murcielago"> 
+                    <img src="image/a1.png" id="logo">
+                    <img src="image/a.png" id="road">
+                    <h1 id="text">Vuelve..</h1>
+                </div>
+            </section>
+            <section id="calendar">
+                <div class="regresiva">
+                    <h1 id="headline">Se estrenara en</h1>
+                    <div id="countdown">
+                    <ul>
+                        <li><span id="days"></span>Dias</li>
+                        <li><span id="hours"></span>Horas</li>
+                        <li><span id="minutes"></span>Minutos</li>
+                        <li><span id="seconds"></span>Segundos</li>
+                    </ul>
+                    </div>
+                </div>
+            </section>
+            <section id="personajes">
+                <div class="nubes"></div>
+            </section>
+        </div>  
     
+    <script src="js/countdown.js"></script>
     <script src="js/scrollybat.js"></script>
 </body>
 </html>

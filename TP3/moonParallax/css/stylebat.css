@@ -1,7 +1,4 @@
 
-
-
-
 * { 
     margin: 0;
     padding: 0;
@@ -10,15 +7,27 @@
 
 @keyframes scroll{
     0%{background-position-x: 0px;}
-    100%{background-position-x: -510px;}
+    100%{background-position-x: -640px;}
+}
+@keyframes spin{
+  0%{
+      background: transparent;
+      transform: rotate(720deg);
+  }
 }
 
 body {
-    background: #0a2a43;
+    background: #f8b435;
     min-height: 1500px;
 }
 
-#comienzo {
+.oculto{
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+.centro {
     position: relative;
     left: 25%;
     width: 640px;
@@ -28,30 +37,29 @@ body {
     justify-items: center;
 }
 
-#comienzo::before {
+.centro::before {
     content: '';
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 100px;
-    background: linear-gradient(to top, #0a2a43, transparent);
+    background: linear-gradient(to top, #be7f08);
     z-index: 100;
 }
 
-
-#comienzo::after {
+.centro::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #0a2a43;
+    background: #be7f08;
     z-index: 100;
     mix-blend-mode: color;
 }
 
-#comienzo img {
+.centro img {
     position: absolute;
     top: 0;
     left: 0;
@@ -63,7 +71,7 @@ body {
 
 #text {
     position: relative;
-    color: #fff;
+    color: rgb(22, 15, 15);
     font-size: 6em;
     z-index: 1;
 }
@@ -72,8 +80,21 @@ body {
     z-index: 2;
 }
 
-{
-    background-image: url(../image/nube_batman.png);
+#personajes {
+    position: relative;
+    left: 25%;
+    width: 640px;
+    height: 1136px;
+    overflow: hidden;
+    display: flex;
+   /*  justify-items: center; */
+   background-image: url(../image/nubess.png);
+    z-index: -2;
+    animation: scroll 5s infinite linear;
+}
+
+.nubes {
+    background-image: url(../image/nubess.png);
     z-index: -2;
     animation: scroll 5s infinite linear;
 }
@@ -81,3 +102,77 @@ body {
 #logo {
    background-size: 30%;
 }
+
+/*** contador**/
+
+.regresiva {
+    align-items: center;
+    background-color: #a07f12;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, 
+      BlinkMacSystemFont, 
+      "Segoe UI", 
+      Roboto, 
+      Oxygen-Sans, 
+      Ubuntu, 
+      Cantarell, 
+      "Helvetica Neue", 
+      sans-serif;
+  }
+  
+  .container {
+    color: #333;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  h1 {
+    font-weight: normal;
+    letter-spacing: .125rem;
+    text-transform: uppercase;
+  }
+  
+  li {
+    display: inline-block;
+    font-size: 1.5em;
+    list-style-type: none;
+    padding: 1em;
+    text-transform: uppercase;
+  }
+  
+  li span {
+    display: block;
+    font-size: 4.5rem;
+  }
+  
+  .message {
+    font-size: 4rem;
+  }
+  
+  #content {
+    display: none;
+    padding: 1rem;
+  }
+
+  .spinner {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 10px solid blue;
+    background: transparent;
+    border-top-color:red;
+    border-bottom-color: orange;
+    border-left-color: pink;
+    animation: spin 1.5s linear infinite;
+    position: relative;
+}
+
+.loading{
+  display: center;
+  background-color: rgba(155, 21, 45, 5);
+  top: 250px;
+  height: 1366px;
+  width: 768px;
+}
+  
