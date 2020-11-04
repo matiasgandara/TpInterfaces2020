@@ -1,8 +1,7 @@
 * { 
     margin: 0;
     padding: 0;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;    
 }
 
 @keyframes scroll{
@@ -18,7 +17,7 @@
 
 body {
     background: #f8b435;
-    min-height: 1500px;
+    min-height: 100vh;
     position: relative;
 }
 
@@ -30,7 +29,7 @@ body {
 
 .loading{
   position: absolute;
-  background-image: url(../image/the-Bat.jpg);
+  background-color: rgba(179, 119, 8, 0.603);
   height: 100%;
   width: 100%;
   animation-name: fade;
@@ -40,6 +39,12 @@ body {
 #pagina {
   position: absolute;
 }
+
+a {
+  color: black;
+}
+
+
 /*******************************Comienzo*****************/
 .presentacion{
   display: flex;
@@ -106,7 +111,7 @@ h2{
 
 .fondoMove {
     position: relative;
-    width: 310px;
+    width: 355px;
     height: 1136px;
     overflow: hidden;
     background-image: url(../image/nube34.png);
@@ -123,15 +128,6 @@ h2{
     background-color: #a07f12;
     display: flex;
     flex-direction: column;
-    font-family: -apple-system, 
-      BlinkMacSystemFont, 
-      "Segoe UI", 
-      Roboto, 
-      Oxygen-Sans, 
-      Ubuntu, 
-      Cantarell, 
-      "Helvetica Neue", 
-      sans-serif;
   }
   
   .container {
@@ -179,17 +175,18 @@ h2{
     border-left-color: grey;
     animation: spin 1.5s linear infinite;
     left: 45%;
-    top: 15%;
+    top: 45%;
     position: absolute;
 }
 
 
-
+/*************************Fin contador**********************************/
 /***********************************CARDS*******************************/
 
 .cards{
   height: 100vh;
   width: 100%;
+  align-content: center;
   display: flex;
   flex-direction: column;
 
@@ -199,14 +196,16 @@ h2{
   display: flex;
   flex-direction: row;
   align-items: center;
+  visibility: hidden;
+  
 }
 
-#card1{
-  left: 1000px;
+#card1 .cardsFila{
+  transform: translateX(1500px);
 
 }
-#card2{
-  right: 1000px;
+#card2 .cardsFila{
+  transform: translateX(-1500px);
 }
 
 .flip-container {
@@ -217,7 +216,7 @@ h2{
     perspective: 1000px; 
   }
   .card {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -378,79 +377,212 @@ img {vertical-align: middle;}
   to {opacity: 1}
 }
 
-/***************************Formulario********************************/
-.social{
-  display: flex;
-  flex-direction: row;
-}
+/****************************Formulario ******************************************/
 
-#comment_form{
-  top:50px;
-  left: 280px;
+
+.formulario {
+  left: 80%;
+  width: 500px;
+  max-width: 100%;
+  margin: auto;
+  margin-top: 30px;
+  padding: 20px;
+  box-shadow: 0 0 20px 1px rgba(0,0,0,0.3);
   position: relative;
 }
-
-#comment_form input, #comment_form textarea {
-	border: 4px solid rgba(0,0,0,0.1);
-	padding: 8px 10px;
-	
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	
-	outline: 0;
+.formulario__titulo {
+  text-align: center;
+  margin-top: 0;
+  color: rgba(0,0,0,0.7);
+}
+.formulario__input, .formulario__label, .formulario__submit {
+  display: block;
+  width: 90%;
+  font-size: 1.3em;
+}
+.formulario__input {
+  padding: 20px;
+  background: rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.3);
+  margin-bottom: 40px;
+}
+.formulario__input:focus {
+  outline: 1px solid rgba(0,0,0,0.7);
+}
+.formulario__input:focus + .formulario__label{
+  margin-top: -135px;
+}
+.formulario__label {
+  padding-left: 15px;
+  position: absolute;
+  margin-top: -85px;
+  z-index: -20;
+  color: rgba(0,0,0,0.5);
+  transition: all 0.2s;
 }
 
-#comment_form textarea {
-	width: 350px;
+.fijar {
+  margin-top: -135px;
 }
 
-.enfoque:hover{
-	background-color: burlywood;
+/**********************Boton enviar****************************/
+
+.button, .tick {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#comment_form input[type="submit"] {
-	cursor: pointer;
-	background: -webkit-linear-gradient(top, #efefef, #ddd);
-	background: -moz-linear-gradient(top, #efefef, #ddd);
-	background: -ms-linear-gradient(top, #efefef, #ddd);
-	background: -o-linear-gradient(top, #efefef, #ddd);
-	background: linear-gradient(top, #efefef, #ddd);
-	color: #333;
-	text-shadow: 0px 1px 1px rgba(255,255,255,1);
-	border: 1px solid #ccc;
-}
 
-#comment_form input[type="submit"]:hover {
-	background: -webkit-linear-gradient(top, #eee, #ccc);
-	background: -moz-linear-gradient(top, #eee, #ccc);
-	background: -ms-linear-gradient(top, #eee, #ccc);
-	background: -o-linear-gradient(top, #eee, #ccc);
-	background: linear-gradient(top, #eee, #ccc);
-	border: 1px solid #bbb;
-}
-
-#comment_form input[type="submit"]:active {
-	background: -webkit-linear-gradient(top, #ddd, #aaa);
-	background: -moz-linear-gradient(top, #ddd, #aaa);
-	background: -ms-linear-gradient(top, #ddd, #aaa);
-	background: -o-linear-gradient(top, #ddd, #aaa);
-	background: linear-gradient(top, #ddd, #aaa);	
-	border: 1px solid #999;
-}
-
-.enviar:hover{
-	  width: 300px;
-    background: green;
-}
-	
-
-
-.enviar {
+.button {
   width: 100px;
-    height: 50px;
-    background: gray;
-    color: white;
-    font-weight: bold;
-    transition: width 1s, background 4s;
+  height: 50px;
+  background: dodgerblue;
+  border-radius: 6px;
+  transition: all .3s cubic-bezier(0.67, 0.17, 0.40, 0.83);
 }
+
+.button svg {
+  transform: rotate(180deg);
+  transition: all .5s;
+}
+
+.button__circle {
+  width: 60px;
+  height: 60px;
+  background: mediumseagreen;
+  border-radius: 50%;
+  transform: rotate(-180deg);
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.tick {
+  color: white;
+  font-size: 2em;
+  transition: all .9s;
+}
+
+/************************acordeon*****************************************/
+
+.acordeon input {
+  display: none;
+}
+.acordeon{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.acordeon__titulo {
+  display: block;
+  padding: 15px;
+  background: rgb(201, 109, 4);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #fff;
+}
+.acordeon__titulo:hover {
+  background: rgba(236, 165, 32, 0.8);
+}
+
+.acordeon__contenido {
+  display: flex;
+  flex-direction: row;
+  height: 0;
+  overflow: hidden;
+  margin: 0;
+  transition: all 0.5s;
+}
+
+.acordeon input:checked ~ .acordeon__contenido{
+  height: auto;
+  margin: 15px 0;
+}
+
+.containerAcordeon {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  height: auto;
+  width: 70%;
+}
+
+.parrafotxt{
+  width: 50%;
+}
+
+/******************* Efecto card ***************************/
+
+.cuadro {
+  transform-style: preserve-3d;
+  /* perspective: auto; */
+  height: auto;
+  width: 50%;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardAcord {
+  width: 400px;
+  height: 210px;
+  position: relative;
+  border-radius: 3px;
+  background-position: top center;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#img1{
+  background-image: url(../image/primeromini.jpeg);
+
+}
+
+#img2{
+  background-image: url(../image/segundomini.jpg);
+
+}
+
+#img3{
+  background-image: url(../image/batimovilmini.jpg);
+
+}
+
+#img4{
+  background-image: url(../image/shazammini.jpg);
+
+}
+
+
+.cardAcord:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 8px;
+    border-radius: 50%;
+    left: 0;
+    bottom: 0px;
+    box-shadow: 0 30px 20px rgba(0, 0, 0, .3);
+  }
+
+
+.card-content {
+  transform-style: preserve-3d;
+  text-align: center;
+}
+
+  .card-content  h1 {
+    color: #FFF;
+    transform: translateZ(100px);
+  }
+  .card-content p {
+    color: #FFF;
+    transform: translateZ(50px);
+  }

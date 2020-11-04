@@ -6,8 +6,8 @@ let pagina = document.querySelector("#pagina");
 pagina.classList.toggle("oculto");
 
 let spinner = document.querySelector(".loading");
+
 setTimeout(function(){ 
-    
     spinner.classList.toggle("oculto"); 
     pagina.classList.toggle("oculto")}, 3000);
 
@@ -18,8 +18,11 @@ let nubes = document.querySelector("#nubes");
 let road = document.querySelector("#road");
 let text = document.querySelector("#text");
 let murcielago= document.querySelector("#murcielago");
-let card1 = document.querySelector("#card1");
-let card2 = document.querySelector("#card2");
+let cardsFila = document.querySelector(".cardsFila");
+let card1 = document.querySelector("#cards1");
+card1.style.visibility = "hidden";
+let card2 = document.querySelector("#cards2");
+card2.style.visibility = "hidden";
 
 
 //***scrollY para parallax inicial */
@@ -35,8 +38,18 @@ window.addEventListener('scroll', function(){
     road.style.top = value * 0.15 + 'px';
     text.style.top = value * 1 + 'px';
     text.style.left = value * 0.2 + 'px';
-});
+    console.log(value);
+    let factor = 0;
+    if (value > 1100){
+        card1.style.visibility = "visible";
+    }
+    if (value > 1300){
+        card2.style.visibility = "visible";
+    }
 
+
+        
+});
 
 
 

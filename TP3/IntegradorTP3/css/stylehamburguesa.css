@@ -1,0 +1,64 @@
+/*************************Hamburguesa******************************/
+.menu{
+    position: fixed;
+  }
+  .linkshamb{
+    display: none;
+  }
+  
+  .inputhamb:checked  ~ ul{
+    display:block;
+  }
+  
+  .inputhamb {
+    display: none;
+  }
+  
+  
+  .labelhamb {
+    box-sizing: border-box;
+    display: inline-block;
+    border: 1px solid black;
+    background-color: orange;
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    user-select: none;
+  }
+  
+  /* Estilo del boton cuando se pasa el mouse por encima*/
+  .labelhamb:hover{
+    background: rgb(250, 191, 81);
+  }
+  
+  /* Estilo del boton cuando el menú está expandido*/
+  .inputhamb:checked ~ .labelhamb {
+    background: rgb(250, 191, 81);
+  }
+  
+  .linkshamb{
+    margin-top:0;
+    padding: 0;
+    width: 200px;
+  
+  }
+  
+  
+  .seccion {
+    display: block;
+    background: rgb(250, 191, 81);
+    margin: 0;
+    padding: 10px;
+    list-style: none;
+    border-bottom: 1px solid grey;
+  }
+  
+  /*Estilo cuando el mouse pasa encima de cada link del menu*/
+  .seccion:hover {
+    filter: brightness(110%);
+  }
+  /*************************Fin Hamburguesa******************************/

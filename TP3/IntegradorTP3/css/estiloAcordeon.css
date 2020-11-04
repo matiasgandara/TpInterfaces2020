@@ -1,0 +1,110 @@
+
+.acordeon input {
+    display: none;
+}
+
+.acordeon__titulo {
+    display: block;
+    padding: 15px;
+    background: blue;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #fff;
+}
+.acordeon__titulo:hover {
+    background: rgba(220, 220, 60, 0.8);
+}
+
+.acordeon__contenido {
+    display: flex;
+    flex-direction: row;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    transition: all 0.5s;
+}
+
+.acordeon input:checked ~ .acordeon__contenido{
+    height: auto;
+    margin: 15px 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 50%;
+    width: 70%;
+
+}
+
+.parrafotxt{
+    width: 50%;
+}
+
+/******************* Efecto card ***************************/
+
+.cuadro {
+    transform-style: preserve-3d;
+    /* perspective: auto; */
+    height: auto;
+    width: 50%;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card {
+    width: 400px;
+    height: 200px;
+    position: relative;
+    border-radius: 3px;
+    background-position: top center;
+    transform-style: preserve-3d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+#img1{
+    background-image: url(../image/cómo-podría-lucir-el-elenco-de-The-Batman.jpg);
+
+  }
+
+#img2{
+    background-image: url(../image/batman-2021-cast.jpg);
+ 
+  }
+
+#img3{
+    background-image: url(../image/1366_2000.jpeg);
+
+  }
+
+  
+.card:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 8px;
+      border-radius: 50%;
+      left: 0;
+      bottom: 0px;
+      box-shadow: 0 30px 20px rgba(0, 0, 0, .3);
+    }
+
+  
+  .card-content {
+    transform-style: preserve-3d;
+    text-align: center;}
+  
+    .card-content  h1 {
+      color: #FFF;
+      transform: translateZ(100px);
+    }
+    .card-content p {
+      color: #FFF;
+      transform: translateZ(50px);
+    }
+  
